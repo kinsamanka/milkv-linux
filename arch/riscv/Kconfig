@@ -27,6 +27,11 @@ config RISCV
 	select ARCH_HAS_SET_DIRECT_MAP
 	select ARCH_HAS_SET_MEMORY
 	select ARCH_HAS_STRICT_KERNEL_RWX if MMU
+	select ARCH_HAS_DMA_PREP_COHERENT if ARCH_CVITEK
+	select ARCH_HAS_SYNC_DMA_FOR_CPU if ARCH_CVITEK
+	select ARCH_HAS_SYNC_DMA_FOR_DEVICE if ARCH_CVITEK
+	select ARCH_HAS_DMA_WRITE_COMBINE if ARCH_CVITEK
+	select ARCH_HAS_DMA_MMAP_PGPROT if ARCH_CVITEK
 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
 	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
 	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
@@ -36,6 +41,8 @@ config RISCV
 	select CLINT_TIMER if !MMU
 	select COMMON_CLK
 	select EDAC_SUPPORT
+	select DMA_DIRECT_REMAP if ARCH_CVITEK
+	select GENERIC_ALLOCATOR if ARCH_CVITEK
 	select GENERIC_ARCH_TOPOLOGY
 	select GENERIC_ATOMIC64 if !64BIT
 	select GENERIC_CLOCKEVENTS
@@ -73,6 +80,7 @@ config RISCV
 	select HAVE_PERF_EVENTS
 	select HAVE_PERF_REGS
 	select HAVE_PERF_USER_STACK_DUMP
+	select HAVE_REGS_AND_STACK_ACCESS_API if ARCH_CVITEK
 	select HAVE_STACKPROTECTOR
 	select HAVE_SYSCALL_TRACEPOINTS
 	select IRQ_DOMAIN
@@ -144,7 +152,6 @@ config KASAN_SHADOW_OFFSET
 	depends on KASAN_GENERIC
 	default 0xdfffffc800000000 if 64BIT
 	default 0xffffffff if 32BIT
-
 config ARCH_FLATMEM_ENABLE
 	def_bool y
 
@@ -324,7 +331,7 @@ menu "supported PMU type"
 
 config RISCV_BASE_PMU
 	bool "Base Performance Monitoring Unit"
-	def_bool y
+	def_bool n
 	help
 	  A base PMU that serves as a reference implementation and has limited
 	  feature of perf.  It can run on any RISC-V machines so serves as the
@@ -459,3 +466,4 @@ source "kernel/power/Kconfig"
 endmenu
 
 source "drivers/firmware/Kconfig"
+source "arch/riscv/mach-cvitek/Kconfig"
