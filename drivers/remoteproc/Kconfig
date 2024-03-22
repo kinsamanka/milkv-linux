@@ -288,6 +288,17 @@ config TI_K3_R5_REMOTEPROC
 	  It's safe to say N here if you're not interested in utilizing
 	  a slave processor.
 
+config CV180X_REMOTEPROC
+        tristate "cvitek remoteproc support"
+        depends on ARCH_CV180X
+	select MAILBOX
+	select CV180X_MBOX
+        help
+          Say y here to support CV180x secondary processors via the remote
+          processor framework.
+
+          This can be either built-in or a loadable module.
+
 endif # REMOTEPROC
 
 endmenu
