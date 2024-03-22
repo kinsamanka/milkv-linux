@@ -254,4 +254,11 @@ config QCOM_IPCC
 	  acts as an interrupt controller for receiving interrupts from clients.
 	  Say Y here if you want to build this driver.
 
+config CV180X_MBOX
+	tristate "Sophgo CV180x mailbox driver"
+	depends on ARCH_CV180X || COMPILE_TEST
+	help
+	  This driver provides support for inter-processor communication
+	  between CPU cores on Sophgo CV180x SoCs.
+
 endif
